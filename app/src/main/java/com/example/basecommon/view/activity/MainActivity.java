@@ -13,15 +13,16 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.andremion.floatingnavigationview.FloatingNavigationView;
 import com.example.basecommon.R;
 import com.example.basecommon.databinding.ActivityMainBinding;
 import com.example.basecommon.model.object.MainMenuItem;
@@ -29,6 +30,7 @@ import com.example.basecommon.model.object.SearchCondition;
 import com.example.basecommon.model.object.Users;
 import com.example.basecommon.view.BackPressControl;
 import com.example.basecommon.viewModel.AppVersionViewModel;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
@@ -36,7 +38,8 @@ public class MainActivity extends BaseActivity {
     ActivityMainBinding binding;
     AppVersionViewModel appVersionViewModel;
     BackPressControl backpressed;
-    private FloatingNavigationView mFloatingNavigationView;
+    DrawerLayout drawerLayout;
+    private NavigationView mNavigationView;
     private ActivityResultLauncher<Intent> resultLauncher;
 
     @Override
@@ -45,15 +48,12 @@ public class MainActivity extends BaseActivity {
         init();
         appVersionViewModel.GetNoticeData2();
     }
-    public void showFloatingNavigationView() {
-        mFloatingNavigationView.open();
-    }
 
     private void init(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         appVersionViewModel = new ViewModelProvider(this).get(AppVersionViewModel.class);
         setBar();
-        setFloatingNavigationView();
+        setNavigationView();
         observerViewModel();
         getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
         backpressed = new BackPressControl(this);
@@ -63,8 +63,8 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(binding.toolbar);
         CommonMethod.setBar(this);
     }
-    private void setFloatingNavigationView() {
-        mFloatingNavigationView = CommonMethod.setFloatingNavigationView(this);
+    private void setNavigationView() {
+        mNavigationView = CommonMethod.setNavigationView(this);
     }
 
 
@@ -88,8 +88,6 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-
-
     }
 
     private void startProgress() {

@@ -211,6 +211,7 @@ public class LoginActivity extends BaseActivity {
             } else
                 Users.UserImage = "fail";
             Intent intent = new Intent(this, MainActivity.class);
+            //Intent intent = new Intent(this, testActivity.class);
             startActivity(intent);
             finish();
         });
