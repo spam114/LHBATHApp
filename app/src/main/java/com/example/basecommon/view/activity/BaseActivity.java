@@ -43,5 +43,9 @@ public class BaseActivity extends AppCompatActivity {
 
     public ArrayList<MainMenuItem> getMainMenuItem(){return CommonApplication.getInstance().getMainMenuItem();}
 
-
+    public void setBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        CommonMethod.setBar(this);
+    }
 }

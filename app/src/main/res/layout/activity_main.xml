@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <data>
-
-    </data>
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
@@ -13,48 +7,13 @@
         android:fitsSystemWindows="true"
         android:foregroundGravity="left">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".view.activity.MainActivity">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@drawable/borderline2"
-                android:minHeight="45dp"
-                custom:layout_constraintEnd_toEndOf="parent"
-                custom:layout_constraintStart_toStartOf="parent"
-                custom:layout_constraintTop_toTopOf="parent"
-                custom:layout_constraintVertical_weight="1.5">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:textSize="20dp"
-                    tools:layout_editor_absoluteX="186dp"
-                    tools:layout_editor_absoluteY="14dp">
-                </TextView>
-            </androidx.appcompat.widget.Toolbar>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <include layout="@layout/common_tool_bar"/>
 
         <!-- 여기서부터 코드 작성 -->
 
         <!-- 여기서까지 코드 작성 -->
 
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/floating_navigation_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@android:color/white"
-            custom:backgroundTint="#0B87C3"
-            custom:headerLayout="@layout/navigation_view_header"
-            custom:menu="@menu/navigation_view">
+        <include layout="@layout/common_navigation_view"/>
 
-        </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
-
 </layout>

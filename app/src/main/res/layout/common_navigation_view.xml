@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.navigation.NavigationView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/floating_navigation_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@android:color/white"
+    custom:backgroundTint="#0B87C3"
+    custom:headerLayout="@layout/navigation_view_header"
+    custom:menu="@menu/navigation_view">
+
+</com.google.android.material.navigation.NavigationView>
