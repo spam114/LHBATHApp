@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#5C5C5C"
+            android:gravity="center"
+            android:onClick="mOnClick"
+            android:text="+ 추가  "
+            android:textColor="#ffffff"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/textViewUserName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start|center_horizontal|center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="현장"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+
+
+    </LinearLayout>
+
+    <ListView android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:id="@+id/listViewImage"/>
+
+</LinearLayout>
+</layout>

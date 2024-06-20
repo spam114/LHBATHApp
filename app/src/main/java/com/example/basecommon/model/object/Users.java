@@ -41,4 +41,7 @@ public class Users {
 
     public static String CostCenter;
     public static String CostCenterName;
+
+    public static int LeaderType;
+    public static int SupervisorCode;
 }

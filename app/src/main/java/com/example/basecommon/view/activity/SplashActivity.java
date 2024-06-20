@@ -188,7 +188,7 @@ public class SplashActivity extends BaseActivity {
             if (Users.Model == null)
                 Users.Model = "";
             Users.PhoneNumber = systemService.getLine1Number();//없으면 null이들어갈수도있다 -> if(Users.PhoneNumber==null) 으로 활용가능
-            //Users.PhoneNumber = "010-6737-5288";//없으면 null이들어갈수도있다 -> if(Users.PhoneNumber==null) 으로 활용가능
+            //Users.PhoneNumber = "010-4189-2224";//없으면 null이들어갈수도있다 -> if(Users.PhoneNumber==null) 으로 활용가능
             if (Users.PhoneNumber == null)
                 Users.PhoneNumber = "";
             else

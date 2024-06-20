@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -31,6 +32,8 @@ import com.example.basecommon.model.object.SearchCondition;
 import com.example.basecommon.model.object.Users;
 import com.example.basecommon.view.BackPressControl;
 import com.example.basecommon.viewModel.AppVersionViewModel;
+import com.example.basecommon.viewModel.LocationViewModel;
+import com.example.basecommon.viewModel.SupervisorVIewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -40,8 +43,8 @@ public class MainActivity extends BaseActivity {
     AppVersionViewModel appVersionViewModel;
     BackPressControl backpressed;
     DrawerLayout drawerLayout;
-    private NavigationView mNavigationView;
-    private ActivityResultLauncher<Intent> resultLauncher;
+    SupervisorVIewModel supervisorVIewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +56,49 @@ public class MainActivity extends BaseActivity {
     private void init(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         appVersionViewModel = new ViewModelProvider(this).get(AppVersionViewModel.class);
+        supervisorVIewModel = new ViewModelProvider(this).get(SupervisorVIewModel.class);
         setBar();
-        setNavigationView();
         observerViewModel();
         getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
+        Users.PhoneNumber = "010-4189-2224";
+        supervisorVIewModel.GetLeaderType(Users.PhoneNumber);
         backpressed = new BackPressControl(this);
+        ButtonEvent();
     }
 
-    private void setNavigationView() {
-        mNavigationView = CommonMethod.setNavigationView(this);
-    }
+    private void ButtonEvent(){
+        binding.CameraTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CameraTestActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        binding.testRepair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RepairTestActivity.class);
+                startActivity(intent);
+            }
+        });
+        binding.WriteWorkingReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ASListWritePlaceSelect.class);
+                intent.putExtra("Sortation",1);
+                startActivity(intent);
+            }
+        });
+        binding.WriteASReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ASListWritePlaceSelect.class);
+                intent.putExtra("Sortation",2);
+                startActivity(intent);
+            }
+        });
+    }
 
     public void observerViewModel() {
 
@@ -85,6 +120,10 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+
+        supervisorVIewModel.supervisorData.observe(this, data -> {
+            Users.LeaderType = data.LeaderType;
+        });
     }
 
     private void startProgress() {
@@ -105,13 +144,4 @@ public class MainActivity extends BaseActivity {
         }
     };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return CommonMethod.onCreateOptionsMenu3(this, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return CommonMethod.onOptionsItemSelected(this, item, resultLauncher, 2);
-    }
 }

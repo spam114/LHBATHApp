@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BaseCommon"
+rootProject.name = "LHBATHApp"
 include(":app")
 
- 
+include(":treeview")

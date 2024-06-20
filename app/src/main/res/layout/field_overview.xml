@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:foregroundGravity="left">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="20">
+
+            <include layout="@layout/common_tool_bar"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_weight="2"/>
+
+            <!-- 여기서부터 코드 작성 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:gravity="top"
+                android:layout_weight="16"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="현 장 개 요"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="9"
+                    android:weightSum="5"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/fieldName"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text=" ■ 현장명 : xxxxxxx"
+                        android:textSize="25dp"/>
+
+                    <TextView
+                        android:id="@+id/ConstructionDay"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text=" ■ 공사기간 : xxxxxxx"
+                        android:textSize="25dp"/>
+
+                    <TextView
+                        android:id="@+id/field"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text=" ■ 공사담당 : xxxxxxx"
+                        android:textSize="25dp"/>
+
+                    <TextView
+                        android:id="@+id/OtherContext"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text=" ■ 기타내역 : xxxxxxx"
+                        android:textSize="25dp"/>
+
+                    <TextView
+                        android:id="@+id/ASCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text=" ■ A/S 건수 : 0건"
+                        android:textSize="25dp"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/AsAdd"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="A/S추가"
+                    android:textSize="30dp"/>
+
+                <Button
+                    android:id="@+id/BackHome"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="이전"
+                    android:textSize="30dp"/>
+
+            </LinearLayout>
+            <!-- 여기서까지 코드 작성 -->
+
+        </LinearLayout>
+
+        <include layout="@layout/common_navigation_view"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

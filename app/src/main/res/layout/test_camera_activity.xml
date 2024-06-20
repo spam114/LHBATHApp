@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:foregroundGravity="left">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="20">
+
+            <include layout="@layout/common_tool_bar"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_weight="2"/>
+
+            <!-- 여기서부터 코드 작성 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:gravity="top"
+                android:layout_weight="18"
+                android:weightSum="10">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:gravity="left"
+                        android:layout_gravity="center"
+                        android:text=" ■ 일 자 : "/>
+
+                    <EditText
+                        android:id="@+id/ASDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:gravity="left"
+                        android:layout_gravity="center"
+                        android:text=" ■ 공 종 : "/>
+
+                    <EditText
+                        android:id="@+id/GongJong"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:gravity="left"
+                    android:layout_gravity="center"
+                    android:text=" ■ 호 실 : "/>
+
+                <EditText
+                    android:id="@+id/Ho"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:gravity="left"
+                    android:layout_gravity="center"
+                    android:text=" ■ 내 용 : "/>
+
+                <EditText
+                    android:id="@+id/ASContext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/CameraImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5"
+                    android:src="@drawable/lhbath_log"
+                    android:background="@drawable/borderline_dark"
+                    android:layout_margin="10dp"
+                    android:padding="1dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/ASBack"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="9dp"
+                        android:text="뒤로"/>
+
+                    <Button
+                        android:id="@+id/CameraOK"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="9dp"
+                        android:text="확인"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <!-- 여기서까지 코드 작성 -->
+
+        <include layout="@layout/common_navigation_view"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

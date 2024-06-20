@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:foregroundGravity="left">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="20">
+
+            <include layout="@layout/common_tool_bar"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_weight="2"/>
+
+            <!-- 여기서부터 코드 작성 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:gravity="top"
+                android:layout_weight="18"
+                android:weightSum="10">
+
+                <Button
+                    android:id="@+id/Housing"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:layout_margin="10dp"
+                    android:text="하우징(벽판,천장)"
+                    android:textSize="20dp"/>
+                <Button
+                    android:id="@+id/FloorTile"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:layout_margin="10dp"
+                    android:text="바 닥 타 일"
+                    android:textSize="20dp"/>
+                <Button
+                    android:id="@+id/SecondFurniture"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:layout_margin="10dp"
+                    android:text="2차기구류"
+                    android:textSize="20dp"/>
+                <Button
+                    android:id="@+id/OtherAS"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:layout_margin="10dp"
+                    android:text="기타"
+                    android:textSize="20dp"/>
+                <Button
+                    android:id="@+id/HomeBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="홈"
+                    android:textSize="20dp"/>
+            </LinearLayout>
+
+        <!-- 여기서까지 코드 작성 -->
+        </LinearLayout>
+
+        <include layout="@layout/common_navigation_view"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

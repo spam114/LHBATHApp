@@ -54,7 +54,7 @@ public class CommonMethod {
     public static String keyResult;
     public static DrawerLayout drawerLayout;
     public static NavigationView navigationView;
-
+    public static Toolbar toolbar;
 
     public static boolean onCreateOptionsMenu(BaseActivity activity, Menu menu) {
         activity.getMenuInflater().inflate(R.menu.menu_toolbar, menu);
@@ -98,20 +98,12 @@ public class CommonMethod {
     }
 
     public static void setBar(BaseActivity activity) {
-        Drawable drawable = activity.getResources().getDrawable(R.drawable.baseline_menu_black_36);
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-        Drawable newdrawable = new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(bitmap, 36, 36, true));
-        ActionBar actionBar = activity.getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(newdrawable);
     }
 
 
 
     public static NavigationView setNavigationView(BaseActivity activity) {
-        Toolbar toolbar = activity.findViewById(R.id.toolbar);
+        toolbar = activity.findViewById(R.id.toolbar);
         drawerLayout = activity.findViewById(R.id.drawerLayout);
         navigationView = activity.findViewById(R.id.floating_navigation_view);
         View fnvHeader = navigationView.getHeaderView(0);
@@ -251,8 +243,10 @@ public class CommonMethod {
         animation.setFillEnabled(false);
 
         if (item.getItemId() == android.R.id.home) {
-            navigationView.startAnimation(animation);
-            drawerLayout.openDrawer(Gravity.LEFT,false);
+//            navigationView.startAnimation(animation);
+//            drawerLayout.openDrawer(Gravity.LEFT,false);
+
+            drawerLayout.openDrawer(Gravity.LEFT);
 
             return true;
         } else {

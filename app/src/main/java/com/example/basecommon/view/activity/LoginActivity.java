@@ -165,6 +165,7 @@ public class LoginActivity extends BaseActivity {
             }
         }
         loginViewModel.GetLoginInfo(sc);
+        Users.PhoneNumber = "010-4189-2224";
     }
 
     private void GetLoginInfo() {//폰번호로 로그인

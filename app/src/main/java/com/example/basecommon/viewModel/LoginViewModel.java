@@ -72,7 +72,7 @@ public class LoginViewModel extends ViewModel {
                                     Users.CostCenter = models.CostCenter;
                                     Users.CostCenterName = models.CostCenterName;
                                     //Users.CustomerCode = models.CustomerCode;
-                                    //Users.BusinessClassCode = models.BusinessClassCode;
+                                    Users.BusinessClassCode = models.BusinessClassCode;
                                     //Users.GboutSourcing = models.GboutSourcing;
                                     Users.Language = sc.Language;
                                     Users.AppAuthorityList = models.AppAuthorityList;
