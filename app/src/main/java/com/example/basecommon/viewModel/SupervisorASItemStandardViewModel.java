@@ -22,6 +22,7 @@ public class SupervisorASItemStandardViewModel extends ViewModel {
     public SupervisorASItemStandardService service = SupervisorASItemStandardService.getInstance();
     public CompositeDisposable disposable = new CompositeDisposable();
 
+    // AS 아이템 조회
     public void GetSupervisorASItemStandardParent(){
         loading.setValue(true);
         disposable.add(
@@ -51,4 +52,5 @@ public class SupervisorASItemStandardViewModel extends ViewModel {
                         })
         );
     }
+
 }

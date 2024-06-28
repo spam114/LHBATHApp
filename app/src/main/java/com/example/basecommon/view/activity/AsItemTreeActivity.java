@@ -35,20 +35,15 @@ public class AsItemTreeActivity extends BaseActivity{
     private HashMap <Integer, List<SupervisorASItemStandard>> FirstChild = new HashMap<>();
     private HashMap <Integer, List<SupervisorASItemStandard>> SecondChild = new HashMap<>();
     private List<SupervisorASItemStandard> CommonList = new ArrayList<>();
-    private String TitleName;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_as_item_tree);
-        setBar();
         init();
     }
 
     private void init(){
         Intent intent = getIntent();
-        TitleName = intent.getStringExtra("LocationName") + " → A/S추가";
-        setBarTitle(TitleName);
         supervisorASItemStandardViewModel = new ViewModelProvider(this).get(SupervisorASItemStandardViewModel.class);
         observerViewModel();
         supervisorASItemStandardViewModel.GetSupervisorASItemStandardParent();
@@ -68,9 +63,13 @@ public class AsItemTreeActivity extends BaseActivity{
                 Parent.setClickListener(new TreeNode.TreeNodeClickListener() {
                     @Override
                     public void onClick(TreeNode node, Object value) {
-                        Intent intent = new Intent(getApplicationContext(),CameraTestActivity.class);
-                        intent.putExtra("titleName",TitleName + " → 기타");
-                        startActivity(intent);
+                        Intent intent = getIntent();
+                        intent.putExtra("construction",item.Name);
+                        intent.putExtra("FirstNumber" , item.StandardNo);
+                        intent.putExtra("SecondNumber" , item.StandardNo);
+                        intent.putExtra("ThirdNumber" , item.StandardNo);
+                        setResult(RESULT_OK, intent);
+                        finish();
                     }
                 });
             }
@@ -92,22 +91,14 @@ public class AsItemTreeActivity extends BaseActivity{
                         ChildSecond.setClickListener(new TreeNode.TreeNodeClickListener() {
                             @Override
                             public void onClick(TreeNode node, Object value) {
-                                Intent intent = new Intent(getApplicationContext(),CameraTestActivity.class);
-                                intent.putExtra("titleName",
-                                            TitleName + " -> "
-                                                + ParentMap.get(first.ParentNo).Name + " -> "
-                                                + first.Name  + " -> " + item.Name);
+                                Intent intent = getIntent();
                                 intent.putExtra("construction",ParentMap.get(first.ParentNo).Name);
-                                if(first.Name.equals("기타")){
-                                    if(item.Name.equals("기타")){
-                                        intent.putExtra("constructionContent","");
-                                    }else {
-                                        intent.putExtra("constructionContent", item.Name);
-                                    }
-                                }else{
-                                    intent.putExtra("constructionContent",item.Name + " " + first.Name);
-                                }
-                                startActivity(intent);
+                                intent.putExtra("constructionContent",item.Name + " -> " + first.Name);
+                                intent.putExtra("FirstNumber" , first.ParentNo);
+                                intent.putExtra("SecondNumber" , first.StandardNo);
+                                intent.putExtra("ThirdNumber" , first.StandardNo);
+                                setResult(RESULT_OK,intent);
+                                finish();
                             }
                         });
                         ChildFirst.addChild(ChildSecond);
@@ -125,14 +116,15 @@ public class AsItemTreeActivity extends BaseActivity{
                     ChildFirst.setClickListener(new TreeNode.TreeNodeClickListener() {
                         @Override
                         public void onClick(TreeNode node, Object value) {
-                            Intent intent = new Intent(getApplicationContext(),CameraTestActivity.class);
-                            intent.putExtra("titleName",
-                                    TitleName + " -> "
-                                            + ParentMap.get(first.ParentNo).Name + " -> "
-                                            + first.Name);
+                            Intent intent = getIntent();
                             intent.putExtra("construction",ParentMap.get(first.ParentNo).Name);
-                            intent.putExtra("constructionContent","");
-                            startActivity(intent);
+                            intent.putExtra("constructionContent",first.Name);
+                            intent.putExtra("FirstNumber" , first.ParentNo);
+                            intent.putExtra("SecondNumber" , first.StandardNo);
+                            intent.putExtra("ThirdNumber" , first.StandardNo);
+
+                            setResult(RESULT_OK,intent);
+                            finish();
                         }
                     });
                     ParentNode.addChildren(ChildFirst);
@@ -148,18 +140,15 @@ public class AsItemTreeActivity extends BaseActivity{
                     ChildSecond.setClickListener(new TreeNode.TreeNodeClickListener() {
                         @Override
                         public void onClick(TreeNode node, Object value) {
-                            Intent intent = new Intent(getApplicationContext(),CameraTestActivity.class);
-                            intent.putExtra("titleName",
-                                        TitleName + " -> "
-                                            + ParentMap.get(first.ParentNo).Name + " -> "
-                                            + first.Name  + " -> " + second.Name);
+                            Intent intent = getIntent();
                             intent.putExtra("construction",ParentMap.get(first.ParentNo).Name);
-                            if(second.Name.equals("기타")){
-                                intent.putExtra("constructionContent",first.Name);
-                            }else{
-                                intent.putExtra("constructionContent",first.Name  + " " + second.Name);
-                            }
-                            startActivity(intent);
+                            intent.putExtra("constructionContent",first.Name  + " -> " + second.Name);
+                            intent.putExtra("FirstNumber" , first.ParentNo);
+                            intent.putExtra("SecondNumber" , first.StandardNo);
+                            intent.putExtra("ThirdNumber" , second.StandardNo);
+
+                            setResult(RESULT_OK,intent);
+                            finish();
                         }
                     });
                     SecondChildren.add(ChildSecond);
@@ -221,7 +210,6 @@ public class AsItemTreeActivity extends BaseActivity{
 
 class MyHolder extends TreeNode.BaseNodeViewHolder<MyHolder.IconTreeItem> {
     String AsName;
-
     public MyHolder(Context context, String AsName){
         super(context);
         this.AsName = AsName;
@@ -264,10 +252,12 @@ class SecondHolder extends TreeNode.BaseNodeViewHolder<SecondHolder.IconTreeItem
         public int icon;
         public String text;
     }
+
 }
 
 class ParentNode extends TreeNode.BaseNodeViewHolder<ParentNode.IconTreeItem>{
     String ASName;
+    String ParentNum;
     public ParentNode(Context context, String LocationName){
         super(context);
         this.ASName = LocationName;
@@ -283,8 +273,13 @@ class ParentNode extends TreeNode.BaseNodeViewHolder<ParentNode.IconTreeItem>{
         return view;
     }
 
+    public void setParentNum(String parentNum) {
+        ParentNum = parentNum;
+    }
+
     public static class IconTreeItem{
         public int icon;
         public String text;
     }
+
 }

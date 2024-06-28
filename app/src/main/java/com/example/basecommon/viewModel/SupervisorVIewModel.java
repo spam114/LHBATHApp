@@ -9,6 +9,8 @@ import com.example.basecommon.model.object.Supervisor;
 import com.example.basecommon.model.object.SupervisorWorder;
 import com.example.basecommon.model.object.SupervisorWorkType;
 import com.example.basecommon.model.object.Users;
+import com.example.basecommon.model.object.WorkListSearch;
+import com.example.basecommon.model.object.WorkingList;
 
 import java.util.List;
 
@@ -25,10 +27,14 @@ public class SupervisorVIewModel extends ViewModel {
     public MutableLiveData<Supervisor> supervisorData = new MutableLiveData<>();
     public SupervisorWorderService service = SupervisorWorderService.getInstance();
     public MutableLiveData<SupervisorWorder> supervisorWorderData = new MutableLiveData<>();
+    // 작업 일지 조회용
+    public MutableLiveData<SupervisorWorder> SingleSupervisorWorder = new MutableLiveData<>();
     public MutableLiveData<List<SupervisorWorkType>> workList = new MutableLiveData<>();
+    public MutableLiveData<List<WorkingList>> MyWorkingList = new MutableLiveData<>();
     public SupervisorService supervisorService = SupervisorService.getInstance();
     private CompositeDisposable disposable = new CompositeDisposable();
 
+    // SupervisorWorder 장소로 검색
     public void GetSupervisorWorder(int LocationNo){
         loading.setValue(true);
         disposable.add(
@@ -211,4 +217,68 @@ public class SupervisorVIewModel extends ViewModel {
                         })
         );
     }
+
+    // 작업 일보 조회 ( 간략 대량 )
+    public void GetWorkingList(WorkListSearch workListSearch){
+        loading.setValue(true);
+        disposable.add(
+                service.GetWorkingList(workListSearch)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<List<WorkingList>>(){
+                            @Override
+                            public void onSuccess(List<WorkingList> workingLists) {
+                                if(workingLists.size() == 1 && workingLists.get(0).ErrorCheck != null){
+                                    errorMsg.setValue(workingLists.get(0).ErrorCheck);
+                                    loadError.setValue(true);
+                                    loading.setValue(false);
+                                }else{
+                                    MyWorkingList.setValue(workingLists);
+                                    loadError.setValue(false);
+                                    loading.setValue(false);
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                errorMsg.setValue(Users.Language==0 ? "서버 오류 발생": "Server error occurred");
+                                loadError.setValue(true);
+                                loading.setValue(false);
+                                e.printStackTrace();
+                            }
+                        })
+        );
+    }
+
+    // 작업 일보 조회 ( 세부 단일 )
+    public void GetSupervisorWorderSingle(String supervisorWoNo){
+        loading.setValue(true);
+        disposable.add(
+                service.GetSupervisorWorderSingle(supervisorWoNo)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<SupervisorWorder>(){
+                            @Override
+                            public void onSuccess(SupervisorWorder supervisorWorder) {
+                                loading.setValue(false);
+                                if(supervisorWorder.ErrorCheck != null){
+                                    errorMsg.setValue(supervisorWorder.ErrorCheck);
+                                    loadError.setValue(true);
+                                }else{
+                                    SingleSupervisorWorder.setValue(supervisorWorder);
+                                    loadError.setValue(false);
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                errorMsg.setValue(Users.Language==0 ? "서버 오류 발생": "Server error occurred");
+                                loadError.setValue(true);
+                                loading.setValue(false);
+                                e.printStackTrace();
+                            }
+                        })
+        );
+    }
+
 }

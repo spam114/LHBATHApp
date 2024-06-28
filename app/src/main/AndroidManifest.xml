@@ -33,7 +33,7 @@
         android:roundIcon="@drawable/lhbath_groupware_log"
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true"
-        android:theme="@style/Theme.BaseCommon"
+        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:appComponentFactory="whateverString"
         tools:targetApi="31"
@@ -128,6 +128,27 @@
 
         <activity
             android:name=".view.activity.ListImage"
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".view.activity.WorkingListVIew"
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".view.activity.ASListView"
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".view.activity.DialogAsItem"
             tools:ignore="LockedOrientationActivity"
             android:exported="true"
             android:screenOrientation="portrait">

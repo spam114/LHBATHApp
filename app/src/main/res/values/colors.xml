@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#077BD6</color>
     <color name="colorAccent">#007CB0</color>
 
+    <color name="fbutton_color_amethyst">#9b59b6</color>
+    <color name="fbutton_color_carrot">#e67e22</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <item name="medium_gray" type="color">#7E868C</item>

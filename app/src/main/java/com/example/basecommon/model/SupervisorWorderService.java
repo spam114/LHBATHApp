@@ -5,6 +5,8 @@ import com.example.basecommon.R;
 import com.example.basecommon.model.object.Location;
 import com.example.basecommon.model.object.SearchCondition;
 import com.example.basecommon.model.object.SupervisorWorder;
+import com.example.basecommon.model.object.WorkListSearch;
+import com.example.basecommon.model.object.WorkingList;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class SupervisorWorderService {
         return instance;
     }
 
+    // SupervisorWorder 장소로 검색
     public Single<List<SupervisorWorder>> GetSupervisorWorder(int LocationNo){
         return api.GetSupervisorWorder(LocationNo);
     }
@@ -43,5 +46,15 @@ public class SupervisorWorderService {
     }
     public Single<SupervisorWorder> DeleteSupervisorWorderData(SupervisorWorder supervisorWorder){
         return api.DeleteSupervisorWorderData(supervisorWorder);
+    }
+    
+    // 작업 일보 조회 ( 간략 대량 )
+    public Single<List<WorkingList>> GetWorkingList(WorkListSearch workListSearch){
+        return api.GetWorkingList(workListSearch);
+    }
+
+    // 작업 일보 조회 ( 세부 사항 )
+    public Single<SupervisorWorder> GetSupervisorWorderSingle(String SupervisorWoNO){
+        return api.GetSupervisorWorderSingle(SupervisorWoNO);
     }
 }

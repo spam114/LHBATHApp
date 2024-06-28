@@ -33,5 +33,4 @@ public class SupervisorASItemStandardService {
     public Single<List<SupervisorASItemStandard>> GetSupervisorASItemStandardParent(){
         return api.GetSupervisorASItemStandardParent();
     }
-
 }

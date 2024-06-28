@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "LHBATHApp"
+rootProject.name = "LhbathApp"
 include(":app")
 
 include(":treeview")

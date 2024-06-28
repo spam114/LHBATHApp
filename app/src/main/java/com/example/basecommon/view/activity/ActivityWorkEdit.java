@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.basecommon.R;
 import com.example.basecommon.databinding.ActivityWorkeditBinding;
+import com.example.basecommon.model.object.Contract;
 import com.example.basecommon.model.object.SupervisorWorder;
 import com.example.basecommon.model.object.SupervisorWorkType;
 import com.example.basecommon.model.object.Users;
@@ -47,12 +48,30 @@ public class ActivityWorkEdit extends BaseActivity{
     SupervisorVIewModel supervisorVIewModel;
     private SupervisorWorder supervisorWorder;
     private Map<String, Integer> NameMap;
+    private List<String> WorkName;
     private String key = "";
+    private String WorkTypeFullName;
+    private String ContractNo;
+    private String FromDate;
+    private String ToDate;
+    private String SearchKeyWord;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
     }
+
+    private void startProgress() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressOFF2();
+            }
+        }, 5000);
+        progressON("Loading...", handler);
+    }
+
     private void init(){
         NameMap = new HashMap<>();
         supervisorWorder = new SupervisorWorder();
@@ -64,8 +83,20 @@ public class ActivityWorkEdit extends BaseActivity{
     }
 
     private void observerViewModel(){
+        // 로딩바
+        supervisorVIewModel.loading.observe(this, isLoading -> {
+            if (isLoading != null) {
+                // 로딩 중이라는 것을 보여준다.
+                if (isLoading) {
+                    startProgress();
+                } else {
+                    progressOFF2();
+                }
+            }
+        });
+
         supervisorVIewModel.workList.observe(this, data->{
-            List<String> WorkName = new ArrayList<>();
+            WorkName = new ArrayList<>();
 
             for(SupervisorWorkType supervisorWorkType : data){
                 WorkName.add(supervisorWorkType.WorkTypeCode + ". " + supervisorWorkType.WorkTypeName);
@@ -75,11 +106,28 @@ public class ActivityWorkEdit extends BaseActivity{
             ArrayAdapter adapter = new ArrayAdapter<>(getApplication(),R.layout.simple_spinner_item,WorkName);
 
             binding.spinnerWorkType.setAdapter(adapter);
+
+            if(key != null){
+                supervisorVIewModel.GetSupervisorWorderSingle(key);
+            }
         });
 
         supervisorVIewModel.supervisorWorderData.observe(this, data->{
             this.key = data.SupervisorWoNo;
             binding.textViewManageNo.setText(this.key);
+            binding.btnDelete.setVisibility(View.VISIBLE);
+            binding.btnASItem.setVisibility(View.VISIBLE);
+            binding.btnImageControl.setVisibility(View.VISIBLE);
+        });
+
+        supervisorVIewModel.SingleSupervisorWorder.observe(this, data->{
+            binding.textViewRealDate.setText(data.WorkDate);
+            binding.textViewTime1.setText(data.StartTime);
+            binding.textViewTime2.setText(data.EndTime);
+            binding.spinnerWorkType.setSelection(WorkName.indexOf(WorkTypeFullName));
+            binding.textViewDong.setText(data.Dong);
+            binding.textView1.setText(data.WorkDescription1);
+            binding.textView2.setText(data.WorkDescription2);
             binding.btnNext.setText("저장하기");
         });
     }
@@ -87,14 +135,34 @@ public class ActivityWorkEdit extends BaseActivity{
     @SuppressLint("NewApi")
     private void viewSetting(){
         Intent intent = getIntent();
-        this.LocationName = intent.getStringExtra("LocationName");
-        if(key.equals("")){
-            binding.btnDelete.setVisibility(View.INVISIBLE);
+        key = intent.getStringExtra("key");
+        if(supervisorWorder.SupervisorWoNo != null){
+            ContractNo  = intent.getStringExtra("ContractNo");
+            FromDate = intent.getStringExtra("FromDate");
+            ToDate = intent.getStringExtra("ToDate");
+            SearchKeyWord = intent.getStringExtra("SearchKeyWord");
         }
+
+        if(key == null){
+            binding.textViewManageNo.setText("작업일보를 먼저 등록을 해주세요.");
+            binding.btnDelete.setVisibility(View.INVISIBLE);
+            binding.btnASItem.setVisibility(View.INVISIBLE);
+            binding.btnImageControl.setVisibility(View.INVISIBLE);
+
+        }else{
+            binding.textViewManageNo.setText(key);
+            binding.btnDelete.setVisibility(View.VISIBLE);
+            binding.btnASItem.setVisibility(View.VISIBLE);
+            binding.btnImageControl.setVisibility(View.VISIBLE);
+            WorkTypeFullName = intent.getStringExtra("WorkTypeFullName");
+            binding.btnNext.setText("저장하기");
+        }
+
+        this.LocationName = intent.getStringExtra("LocationName");
+
         binding.textViewCustomer.setText(this.LocationName);
         binding.btnNext.setText("작업일보 생성");
         binding.textViewRealDate.setText(LocalDate.now().toString().substring(0,10));
-        binding.textViewManageNo.setText("작업일보를 먼저 등록을 해주세요.");
         binding.textViewTime1.setText("오전 9:00");
         binding.textViewTime2.setText("오후 5:00");
         supervisorWorder.ContractNo = intent.getStringExtra("ContractNo");
@@ -130,7 +198,7 @@ public class ActivityWorkEdit extends BaseActivity{
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(key.equals("")){
+                if(key==null){
                     new AlertDialog.Builder(ActivityWorkEdit.this)
                             .setTitle("작업일보 생성")
                             .setMessage("작업일보를 생성하시겠습니까?")
@@ -140,7 +208,6 @@ public class ActivityWorkEdit extends BaseActivity{
                                         public void onClick(DialogInterface dialog, int which) {
                                             SaveData();
                                             supervisorVIewModel.SetSupervisorWorderData(supervisorWorder);
-                                            binding.btnDelete.setVisibility(View.VISIBLE);
                                         }
                                     })
                             .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -177,22 +244,42 @@ public class ActivityWorkEdit extends BaseActivity{
         binding.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(key.equals("")){
+                if(key==null){
                     Toast.makeText(getApplicationContext(),"먼저 작업일보를 등록하여 주세요",Toast.LENGTH_LONG);
                     progressOFF2();
                     return;
                 }
-                supervisorWorder.SupervisorWoNo = key;
-                supervisorVIewModel.DeleteSupervisorWorderData(supervisorWorder);
-                Intent BackIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(BackIntent);
+
+                new AlertDialog.Builder(ActivityWorkEdit.this)
+                        .setTitle("삭제하기")
+                        .setMessage("삭제하시겠습니까?")
+                        .setPositiveButton("확인",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        supervisorWorder.SupervisorWoNo = key;
+                                        supervisorVIewModel.DeleteSupervisorWorderData(supervisorWorder);
+                                        Intent BackIntent = new Intent(getApplicationContext(), WorkingListVIew.class);
+                                        BackIntent.putExtra("SearchKeyWord",SearchKeyWord);
+                                        BackIntent.putExtra("fromDate",FromDate);
+                                        BackIntent.putExtra("toDate",ToDate);
+                                        startActivity(BackIntent);
+                                    }
+                                })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                progressOFF2();
+                                dialog.cancel();
+                            }
+                        }).show();
             }
         });
 
         binding.btnImageControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(key.equals("")){
+                if(key==null){
                     Toast.makeText(getApplicationContext(),"먼저 작업일보를 등록하여 주세요",Toast.LENGTH_LONG);
                     progressOFF2();
                     return;
@@ -212,6 +299,25 @@ public class ActivityWorkEdit extends BaseActivity{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        // AS 추가
+        binding.btnASItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(key==null){
+                    Toast.makeText(getApplicationContext(),"먼저 작업일보를 등록하여 주세요",Toast.LENGTH_LONG);
+                    progressOFF2();
+                    return;
+                }else{
+                    Intent i = new Intent(getApplicationContext(), ASListView.class);
+                    i.putExtra("LocationName",binding.textViewCustomer.getText().toString());
+                    i.putExtra("SupervisorWoNo",key);
+                    i.putExtra("ContractNo",ContractNo);
+                    i.putExtra("Dong", binding.textViewDong.getText().toString());
+                    startActivity(i);
+                }
             }
         });
     }
@@ -272,17 +378,6 @@ public class ActivityWorkEdit extends BaseActivity{
         intent.putExtra("title",title);
         intent.putExtra("content",Content);
         startActivityForResult(intent,resultID);
-    }
-
-    private void StartProgress(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                progressOFF2();
-            }
-        },10000);
-        progressON("Loading...",handler);
     }
 
     @Override

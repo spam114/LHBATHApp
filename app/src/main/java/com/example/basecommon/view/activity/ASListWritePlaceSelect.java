@@ -44,8 +44,6 @@ public class ASListWritePlaceSelect extends BaseActivity{
 
     private void init(){
         binding = DataBindingUtil.setContentView(this, R.layout.as_list_write_place_select);
-        setBar();
-        setBarTitle("A/S 리스트 작성");
         Intent intent = getIntent();
         System.out.println(Users.BusinessClassCode);
         this.SortCode = intent.getIntExtra("Sortation",0);
