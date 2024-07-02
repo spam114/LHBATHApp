@@ -320,6 +320,24 @@ public class ActivityWorkEdit extends BaseActivity{
                 }
             }
         });
+
+        binding.btnAddItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(key==null){
+                    Toast.makeText(getApplicationContext(),"먼저 작업일보를 등록하여 주세요",Toast.LENGTH_LONG);
+                    progressOFF2();
+                    return;
+                }else{
+                    Intent i = new Intent(getApplicationContext(), ASListView.class);
+                    i.putExtra("LocationName",binding.textViewCustomer.getText().toString());
+                    i.putExtra("SupervisorWoNo",key);
+                    i.putExtra("ContractNo",ContractNo);
+                    i.putExtra("Dong", binding.textViewDong.getText().toString());
+                    startActivity(i);
+                }
+            }
+        });
     }
 
     public void SaveData(){

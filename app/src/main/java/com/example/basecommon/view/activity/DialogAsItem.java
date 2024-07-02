@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
@@ -72,6 +73,7 @@ public class DialogAsItem extends BaseActivity{
     private void ViewSetting(){
         binding.textViewRealDate.setText(LocalDate.now().toString());
         binding.edtDong.setText(Dong);
+        binding.txtLocationName.setText(LocationName);
         if(SupervisorAsNo == null){
             binding.btnOK.setText("추가하기");
         }else{
@@ -182,6 +184,19 @@ public class DialogAsItem extends BaseActivity{
                 }
             }
         });
+
+        binding.btnPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(SupervisorAsNo != null){
+                    Intent intent = new Intent(getApplicationContext(),ListImageAS.class);
+                    intent.putExtra("ItemNo",SupervisorAsNo);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(),"먼저 등록을 진행하여 주세요",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void saveData(){
@@ -234,6 +249,22 @@ public class DialogAsItem extends BaseActivity{
                 supervisorAsViewModel.GetSupervisorAsBySupervisorAsNo(SupervisorAsNo);
             }
         });
+
+        supervisorAsViewModel.loading.observe(this, isLoading -> {
+            if(isLoading){
+                startProgress();
+            }else{
+                progressOFF2();
+            }
+        });
+
+        supervisorASItemStandardViewModel.loading.observe(this, isLoading ->{
+            if(isLoading){
+                startProgress();
+            }else{
+                progressOFF2();
+            }
+        });
     }
 
     @Override
@@ -251,5 +282,16 @@ public class DialogAsItem extends BaseActivity{
                 binding.txtAsItemType.setText(construction);
             }
         }
+    }
+
+    private void startProgress() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressOFF2();
+            }
+        }, 5000);
+        progressON("Loading...", handler);
     }
 }

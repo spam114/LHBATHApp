@@ -154,6 +154,13 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".view.activity.ListImageAS"
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

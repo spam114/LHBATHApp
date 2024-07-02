@@ -9,6 +9,7 @@ import com.example.basecommon.model.object.SearchCondition;
 import com.example.basecommon.model.object.Supervisor;
 import com.example.basecommon.model.object.SupervisorAS;
 import com.example.basecommon.model.object.SupervisorASItemStandard;
+import com.example.basecommon.model.object.SupervisorComplaintImage;
 import com.example.basecommon.model.object.SupervisorWoImage;
 import com.example.basecommon.model.object.SupervisorWorder;
 import com.example.basecommon.model.object.SupervisorWorkType;
@@ -84,6 +85,10 @@ public interface DataApi {
     @POST("GetSupervisorAsBySupervisorAsNo")
     Single<SupervisorAS> GetSupervisorAsBySupervisorAsNo(@Body String SupervisorAsNo);
 
+    // AS 및 추가분 사진 조회
+    @POST("GetSupervisorComplaintImageList")
+    Single<List<SupervisorComplaintImage>> GetSupervisorComplaintImageList(@Body String itemNo);
+
     //Insert
     // 작업 일보 작성
     @POST("SetSupervisorWorderData")
@@ -92,6 +97,10 @@ public interface DataApi {
     // 작업일보 사진 넣기
     @POST("InsertSupervisorWoImageMulti")
     Single<List<SupervisorWoImage>> InsertSupervisorWoImageMulti(@Body List<SupervisorWoImage> Images);
+
+    // 작업일보 사진 넣기
+    @POST("InsertSupervisorComplainImageMulti")
+    Single<List<SupervisorComplaintImage>> InsertSupervisorComplainImageMulti(@Body List<SupervisorComplaintImage> Images);
 
     // AS 일지 작성
     @POST("InsertSupervisorAS")
@@ -115,6 +124,9 @@ public interface DataApi {
 
     @POST("DeleteSupervisorAS")
     Single<SupervisorAS> DeleteSupervisorAS(@Body SupervisorAS supervisorAS);
+
+    @POST("DeleteSupervisorComplaintImage")
+    Single<SupervisorComplaintImage> DeleteSupervisorComplaintImage(@Body SupervisorComplaintImage supervisorComplaintImage);
 
     // endregion
 }
